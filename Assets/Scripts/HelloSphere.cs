@@ -63,12 +63,12 @@ public class HelloSphere : MonoBehaviour
             }
         }
 
-        Mesh msh = new Mesh();                          // Création et remplissage du Mesh
+        Mesh msh = new Mesh();
 
         msh.vertices = vertices;
         msh.triangles = triangles;
 
-        gameObject.GetComponent<MeshFilter>().mesh = msh;           // Remplissage du Mesh et ajout du matériel
+        gameObject.GetComponent<MeshFilter>().mesh = msh;
         gameObject.GetComponent<MeshRenderer>().material = mat;
     }
 }
