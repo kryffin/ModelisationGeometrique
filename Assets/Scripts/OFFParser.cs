@@ -46,14 +46,34 @@ public class OFFParser
         }
     }
 
-    private List<Vector3> ComputeNormals(Model m)
+    //Computing vertices normals
+    private void ComputeNormals(Model m)
     {
-        List<Vector3> normals = new List<Vector3>();
-        foreach (Face f in m.faces)
+        for (int i = 0; i < m.faces.Count; i++)
         {
-            normals.Add(Vector3.Cross(m.vertices[f.vertices[1]].pos - m.vertices[f.vertices[0]].pos, m.vertices[f.vertices[2]].pos - m.vertices[f.vertices[0]].pos).normalized);
+            Vector3 norm = Vector3.Cross(m.vertices[m.faces[i].vertices[1]].pos - m.vertices[m.faces[i].vertices[0]].pos, m.vertices[m.faces[i].vertices[2]].pos - m.vertices[m.faces[i].vertices[0]].pos).normalized;
+            for (int j = 0; j < 3; j++)
+            {
+                m.vertices[m.faces[i].vertices[j]].norm += norm;
+            }
         }
-        return normals;
+    }
+
+    private void NormalizeNormals(Model m)
+    {
+        for(int k = 0; k < m.vertices.Count; k++)
+        {
+            int i = 0;
+            foreach (Face f in m.faces)
+            {
+                for (int j = 0; j < f.nbVertices; j++)
+                {
+                    if (f.vertices[j] == k) i++;
+                }
+            }
+            m.vertices[k].norm /= i;
+            m.vertices[k].norm = m.vertices[k].norm.normalized;
+        }
     }
 
     public Model Parse (string filename)
@@ -100,7 +120,8 @@ public class OFFParser
         m.nbE = nbE;
         m.vertices = vertices;
         m.faces = faces;
-        m.normals = ComputeNormals(m);
+        ComputeNormals(m);
+        NormalizeNormals(m);
         RecenterModel(m, CenterOfModel(m));
         NormalizeModelSize(m, HighestCoordinates(m));
 
