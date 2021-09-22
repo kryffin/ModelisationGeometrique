@@ -10,6 +10,9 @@ public class HelloSphere : MonoBehaviour
     public int nbMeridians;
 
     [SerializeField]
+    private bool DEBUG;
+
+    [SerializeField]
     private Vector3[] vertices;
 
     [SerializeField]
@@ -112,6 +115,8 @@ public class HelloSphere : MonoBehaviour
 #if UNITY_EDITOR
     public void OnDrawGizmos()
     {
+        if (!DEBUG) return;
+
         if (vertices != null)
         {
             Gizmos.color = Color.red;
