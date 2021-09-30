@@ -51,16 +51,18 @@ public class HelloModelOFF : MonoBehaviour
         mf.mesh = mesh;
         mr.material = mat;
 
+        GetComponent<MeshCollider>().sharedMesh = mf.mesh;
+
         if (saveOFF) p.Write(model, fileToSave);
     }
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         foreach (Vertice v in model.vertices)
         {
             Debug.DrawRay(v.pos + transform.position,
-                v.norm, Color.red);
+                v.norm / 100f, Color.red);
         }
-    }
+    }*/
 
 }
