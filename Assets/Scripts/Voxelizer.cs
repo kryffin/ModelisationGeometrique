@@ -18,7 +18,7 @@ public class Voxelizer : MonoBehaviour
 
     public enum Operation
     {
-        UNION, INTERSECT
+        UNION, INTERSECT, SUBSTRACT
     };
     public Operation op;
 
@@ -30,6 +30,20 @@ public class Voxelizer : MonoBehaviour
     private void Init()
     {
         voxelsPos = new List<Vector3>();
+    }
+
+    // Only substracts Object1 - Object2
+    private bool Substract(Vector3 v, Object[] objects, float radius, Vector3 offset)
+    {
+        if (objects.Length < 2)
+        {
+            Debug.LogWarning("Substract needs at least 2 objects !\nSwitching to UNION mode.");
+            op = Operation.UNION;
+            //might forget to cycle back on the first cell ?
+            return false;
+        }
+
+        return objects[0].Intersect(v, offset) && !objects[1].Intersect(v, offset);
     }
 
     // Displays only spheres crossing other spheres
@@ -64,6 +78,9 @@ public class Voxelizer : MonoBehaviour
 
             case Operation.INTERSECT:
                 return Intersect(v, objects, radius, offset);
+
+            case Operation.SUBSTRACT:
+                return Substract(v, objects, radius, offset);
 
             default:
                 return false;
