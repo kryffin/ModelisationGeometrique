@@ -550,10 +550,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b72cb499fcac34f40b696b85cf9f5f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSize: 25
-  ySize: 25
-  zSize: 25
-  voxelMaterial: {fileID: 2100000, guid: 6ec15465fd462ea4d8a8a49edb2ba07d, type: 2}
+  xSize: 15
+  ySize: 15
+  zSize: 15
+  voxelMaterial: {fileID: 2100000, guid: 724fccf17ae74354697b799d0c98fac6, type: 2}
   op: 0
 --- !u!114 &579600569
 MonoBehaviour:

@@ -14,11 +14,18 @@ public class Voxelizer : MonoBehaviour
 
     public Material voxelMaterial;
 
+    private Transform voxels;
+
     public enum Operation
     {
         UNION, INTERSECT
     };
     public Operation op;
+
+    private void Start()
+    {
+        voxels = transform.Find("Voxels");
+    }
 
     private void Init()
     {
@@ -63,6 +70,13 @@ public class Voxelizer : MonoBehaviour
         }
     }
 
+    private void CleanVoxels()
+    {
+        foreach (Transform child in transform.Find("Voxels"))
+        {
+            Destroy(child.gameObject);
+        }
+    }
 
     public void Voxelize(Mesh m, Object[] objects)
     {
@@ -102,7 +116,6 @@ public class Voxelizer : MonoBehaviour
             GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
             cube.transform.position = voxelsPos[i];
             cube.transform.localScale = step;
-            cube.GetComponent<BoxCollider>().enabled = false;
             cube.transform.parent = parent;
             cube.name = "Voxel" + i;
             cube.GetComponent<MeshRenderer>().material = voxelMaterial;
@@ -126,6 +139,26 @@ public class Voxelizer : MonoBehaviour
         Voxelize(m, objects);
 
         DrawVoxels();
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(r, out hit, 100f))
+            {
+                if (hit.transform != null)
+                {
+                    int voxel = int.Parse(hit.transform.name.Replace("Voxel", ""));
+                    voxelsPos.RemoveAt(voxel);
+                    CleanVoxels();
+                    DrawVoxels();
+                }
+            }
+        }
     }
 
     private void OnDrawGizmos()
