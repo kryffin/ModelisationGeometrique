@@ -26,6 +26,12 @@ public class HelloModels : MonoBehaviour
                 meshes.Add(transform.GetChild(i).GetComponent<MeshFilter>());
                 objects.Add(new Cube(transform.GetChild(i).transform.localPosition, transform.GetChild(i).transform.localScale.x / 2f));
             }
+            else if (transform.GetChild(i).name.Contains("Ellipsoid"))
+            {
+                transform.GetChild(i).GetComponent<MeshFilter>().gameObject.SetActive(!disableMeshes);
+                meshes.Add(transform.GetChild(i).GetComponent<MeshFilter>());
+                objects.Add(new Ellipsoid(transform.GetChild(i).transform.localPosition, transform.GetChild(i).transform.localScale / 2f));
+            }
         }
 
         GetComponent<Voxelizer>().Voxelize(meshes, objects.ToArray());

@@ -33,7 +33,7 @@ public class Voxelizer : MonoBehaviour
     }
 
     // Only substracts Object1 - Object2
-    private bool Substract(Vector3 v, Object[] objects, float radius, Vector3 offset)
+    private bool Substract(Vector3 v, Object[] objects, Vector3 offset)
     {
         if (objects.Length < 2)
         {
@@ -47,7 +47,7 @@ public class Voxelizer : MonoBehaviour
     }
 
     // Displays only spheres crossing other spheres
-    private bool Intersect(Vector3 v, Object[] objects, float radius, Vector3 offset)
+    private bool Intersect(Vector3 v, Object[] objects, Vector3 offset)
     {
         int cpt = 0;
         foreach (Object o in objects)
@@ -59,7 +59,7 @@ public class Voxelizer : MonoBehaviour
     }
 
     // Diplays every spheres
-    private bool Union(Vector3 v, Object[] objects, float radius, Vector3 offset)
+    private bool Union(Vector3 v, Object[] objects, Vector3 offset)
     {
         foreach (Object o in objects)
         {
@@ -69,18 +69,18 @@ public class Voxelizer : MonoBehaviour
         return false;
     }
 
-    private bool IsPointInside(Vector3 v, Object[] objects, float radius, Vector3 offset)
+    private bool IsPointInside(Vector3 v, Object[] objects, Vector3 offset)
     {
         switch (op)
         {
             case Operation.UNION:
-                return Union(v, objects, radius, offset);
+                return Union(v, objects, offset);
 
             case Operation.INTERSECT:
-                return Intersect(v, objects, radius, offset);
+                return Intersect(v, objects, offset);
 
             case Operation.SUBSTRACT:
-                return Substract(v, objects, radius, offset);
+                return Substract(v, objects, offset);
 
             default:
                 return false;
@@ -113,7 +113,7 @@ public class Voxelizer : MonoBehaviour
                 for (float z = -extents.z; z < extents.z; z+= step.z)
                 {
                     // if the voxel is inside one of the spheres, keep it
-                    if (IsPointInside(new Vector3(x + (step.x / 2f), y + (step.y / 2f), z + (step.z / 2f)), objects, 0.5f, m.bounds.center))
+                    if (IsPointInside(new Vector3(x + (step.x / 2f), y + (step.y / 2f), z + (step.z / 2f)), objects, m.bounds.center - transform.position))
                         voxelsPos.Add(new Vector3(
                             x + (step.x / 2f) + m.bounds.center.x,
                             y + (step.y / 2f) + m.bounds.center.y,
