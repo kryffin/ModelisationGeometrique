@@ -7,6 +7,7 @@ public class HelloModelOFF : MonoBehaviour
     public Material mat;
     public bool saveOFF = false;
     public string fileToSave;
+    public bool reduct = false;
 
     // Start is called before the first frame update
     void Start()
@@ -39,21 +40,21 @@ public class HelloModelOFF : MonoBehaviour
         mesh.triangles = triangles;
 
         // Normals
-        Vector3[] normals = new Vector3[model.vertices.Count];
+        /*Vector3[] normals = new Vector3[model.vertices.Count];
         i = 0;
         foreach (Vertice v in model.vertices)
         {
             normals[i++] = v.norm;
         }
-        mesh.normals = normals;
+        mesh.normals = normals;*/
 
-        //mesh.RecalculateNormals(); //computes vertices normals
+        mesh.RecalculateNormals(); //computes vertices normals
         mf.mesh = mesh;
         mr.material = mat;
 
-        GetComponent<MeshCollider>().sharedMesh = mf.mesh;
-
         if (saveOFF) p.Write(model, fileToSave);
+
+        if (reduct) GetComponent<CellReduction>().Reduction();
     }
 
     /*private void FixedUpdate()
