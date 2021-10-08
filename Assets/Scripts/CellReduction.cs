@@ -50,6 +50,7 @@ public class CellReduction : MonoBehaviour
             }
         }
 
+
         foreach (int i in vertexPerCell.Keys)
         {
             verts[i] = vertexPerCell[i];
@@ -57,8 +58,8 @@ public class CellReduction : MonoBehaviour
 
         m.vertices = verts;
 
-        Debug.Log(Time.realtimeSinceStartup);
+        Debug.Log("Temps de réduction : " + Time.realtimeSinceStartup + "s");
 
-        // Clean ?
+        // Clean triangles ?
     }
 }
