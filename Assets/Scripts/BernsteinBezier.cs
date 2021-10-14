@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class BernsteinBezier : MonoBehaviour
@@ -140,7 +141,11 @@ public class BernsteinBezier : MonoBehaviour
 
     private void FixedUpdate()
     {
-        points2[1].transform.position = (points[3].transform.position - points[2].transform.position) + points[points.Count-1].transform.position;
+        if (Selection.Contains(points[2]))
+            points2[1].transform.position = (points[3].transform.position - points[2].transform.position) + points[points.Count-1].transform.position;
+
+        if (Selection.Contains(points2[1]))
+            points[2].transform.position = (points2[0].transform.position - points2[1].transform.position) + points[points.Count - 1].transform.position;
 
         baseLine.positionCount = points.Count;
         int i = 0;
